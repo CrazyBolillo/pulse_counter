@@ -28,7 +28,7 @@ extern volatile unsigned char ANSELH __at(0x189);
 #define CUENTA_1 (PORTA & 0x01)
 #define CUENTA_2_ACT (CUENTA_2 == 2) && (CUENTA_1 == 0)
 #define CUENTA_1_ACT (CUENTA_2 == 0) && (CUENTA_1 == 1)
-#define PLAY_SOUND PORTA |= 0x05
+#define PLAY_SOUND PORTA |= 0x10
 #define DIGIT_1 PORTC
 #define DIGIT_2 PORTD
 
@@ -73,7 +73,10 @@ void main ()
     OSCCON = 0x75;
     ANSEL = 0x00;
     ANSELH = 0x00;
-    TRISA = 0xFF;
+    PORTA = 0x00;
+    PORTC = 0x00;
+    PORTD = 0x00;
+    TRISA = 0x0F;
     TRISB = 0xFF;
     TRISC = 0x00;
     TRISD = 0x00;
