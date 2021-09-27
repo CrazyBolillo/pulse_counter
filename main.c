@@ -26,7 +26,7 @@ extern volatile unsigned char ANSELH __at(0x189);
 #define _XTAL_FREQ 8000000
 #define CUENTA_2 (PORTA & 0x02)
 #define CUENTA_1 (PORTA & 0x01)
-#define CUENTA_2_ACT (CUENTA_2 == 1) && (CUENTA_1 == 0)
+#define CUENTA_2_ACT (CUENTA_2 == 2) && (CUENTA_1 == 0)
 #define CUENTA_1_ACT (CUENTA_2 == 0) && (CUENTA_1 == 1)
 #define PLAY_SOUND PORTA |= 0x05
 #define DIGIT_1 PORTC
@@ -37,7 +37,7 @@ uint8_t cuenta_uno_disp[] = {0x04, 0xBE, 0x48, 0x18, 0xB2, 0x11, 0x01, 0xBC, 0x0
 uint8_t cuenta_dos_disp[] = {0x40, 0x7B, 0x8A, 0x1A, 0x39, 0x1C, 0x04, 0x7A, 0x00, 0x30};
 
 uint8_t cuenta_uno = 0;
-uint8_t cuenta_dos = 50;
+uint8_t cuenta_dos = 0;
 uint8_t *current_display = &cuenta_uno;
 
 
@@ -50,14 +50,14 @@ void display_led(uint8_t *digit)
 
 void __interrupt() pulse_interrupt(void) 
 {
-    if ((INTCON & 0x02) == 1) {
-        if ((CUENTA_2 == 1) && (CUENTA_1 == 0)) {
+    if ((INTCON & 0x02) == 2) {
+        if (CUENTA_2_ACT) {
             cuenta_dos++;
             if (cuenta_dos == 55) {
                 PLAY_SOUND;   
             }
         }
-        else if ((CUENTA_2 == 0) && (CUENTA_1 == 1)) {
+        else if (CUENTA_1_ACT) {
             cuenta_uno++;
             if (cuenta_uno == 30) {
                 PLAY_SOUND;
