@@ -4,7 +4,7 @@ XC8_ARGS = -mcpu=$(CHIP) -DCOMPILATION -O2
 IPECMD = /opt/microchip/mplabx/v5.50/mplab_platform/mplab_ipe/ipecmd.jar
 TOOL = PPK3
 
-# $(shell   mkdir -p $(OUT))
+$(shell mkdir -p $(OUT))
 
 all: $(OUT)/main.hex
 
